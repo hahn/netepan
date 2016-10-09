@@ -8,7 +8,7 @@ Meski begitu, jika dibandingkan dengan hasil perhitungan Accurate Times versi 5.
 
 ### Install
 
-Untuk memasang esktensi ini, salin folder ke $HOME/.local/share/gnome-shell/extensions/
+Untuk memasang esktensi ini, salin folder netepan@matcherapy.gmail.com ke $HOME/.local/share/gnome-shell/extensions/
 
 Setelah itu, tekan `alt-F2 -> r -> Enter`
 
@@ -16,7 +16,17 @@ Setelah itu, tekan `alt-F2 -> r -> Enter`
 
 Secara default, jadwal yang ditampilkan merupakan untuk wilayah Bandung dan sekitarnya. Untuk mengganti lokasi, pastikan anda mengetahui koordinat lintang dan bujur (serta elevasi). Setelah itu, buka berkas extension.js dan ganti parameter pada variabel loc.
 
+```JSON
+let loc = {
+        city  : 'nama kota',
+        lat   : latitude,
+        lng  : longitude,
+        elev  : ketinggian (dalam meter),
+        tzone : time zone
+      };
+```
+
 Setelah berkas disimpan, kembali tekan `alt-F2 -> r -> Enter`
 
 ### Screenshot 
-[screenshot](https://raw.githubusercontent.com/hahn/netepan/master/netepan.png)
+[screenshot](https://github.com/hahn/netepan/blob/master/netepan.png "screenshot")

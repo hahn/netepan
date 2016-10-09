@@ -98,27 +98,33 @@ const PrayTimeButton = new Lang.Class({
       let times = prayTimes.getTimes(date, [loc.lat, loc.lng, loc.elev], loc.tzone);
       let timesTomorrow = prayTimes.getTimes(tomorrow, [loc.lat, loc.lng, loc.elev], loc.tzone);
       let list = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+      let listId = ['Subuh','Terbit','Dzuhur','Ashar','Magrib','Isya\t'];
+
 
       ////-------------submenu lokasi--------------------////
       let submenu = new PopupMenu.PopupSubMenuMenuItem(loc.city);
       let subitem = new PopupMenu.PopupMenuItem("lat: \t"+ loc.lat);
       submenu.menu.addMenuItem(subitem);
-      subitem = new PopupMenu.PopupMenuItem("lat: \t"+ loc.lng);
+      subitem = new PopupMenu.PopupMenuItem("long: \t"+ loc.lng);
       submenu.menu.addMenuItem(subitem);
       subitem = new PopupMenu.PopupMenuItem("elv: \t"+ loc.elev + " meter");
       submenu.menu.addMenuItem(subitem);
       this.menu.addMenuItem(submenu);
       //////-----------------------------------------///////
 
+	
       for(var i in list){
+	/*
         if(i == 0 || i == 3 || i == 5){
-          item = new PopupMenu.PopupMenuItem(list[i]+"\t\t\t"+times[list[i].toLowerCase()]+"");
+          item = new PopupMenu.PopupMenuItem(listId[i]+"\t\t"+times[list[i].toLowerCase()]+"");
           this.menu.addMenuItem(item);
-        }else {
-          item = new PopupMenu.PopupMenuItem(list[i]+"\t\t"+times[list[i].toLowerCase()]+"");
+        }else { */
+          item = new PopupMenu.PopupMenuItem(listId[i]+"\t\t"+times[list[i].toLowerCase()]+"");
           this.menu.addMenuItem(item);
-        }
+        //}
       }
+	
+
       ////---------setting------------------////
       //TODO: koneksi ke setting ?
       item = new PopupMenu.PopupSeparatorMenuItem();
