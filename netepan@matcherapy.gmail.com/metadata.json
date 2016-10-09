@@ -1,6 +1,8 @@
 {
-	"uuid": "netepan@matcherapy.gmail.com", 
+	"uuid": "netepan@matcherapy.gmail.com",
+	 "gettext-domain": "gnome-shell-extension-netepan", 
 	"description": "pray times", 
+	"settings-schema": "org.gnome.shell.extensions.netepan", 
 	"shell-version": ["3.16.4"], 
 	"name": "Netepan"
 }

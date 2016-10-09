@@ -33,12 +33,24 @@ const Lang = imports.lang;
 const St = imports.gi.St;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Main = imports.ui.main;
+const Util = imports.misc.util;
+const Clutter = imports.gi.Clutter;
+
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const Mainloop = imports.mainloop;
 const PrayTimes = Me.imports.PrayTimes;
 
+const Convenience = Me.imports.convenience;
+
+const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
+const _ = Gettext.gettext;
+
 let pesan ='Adzan';
+let kota = 'awal';
+let dLat = '-6';
+let dLng = 107.609810;
+let iElev = 718;
 
 const PrayTimeButton = new Lang.Class({
     Name: 'PrayTimeButton',
@@ -47,6 +59,13 @@ const PrayTimeButton = new Lang.Class({
     _init: function() {
         let menuAlignment = 0.5;
         this.parent(menuAlignment);
+        
+        this._settings = Convenience.getSettings();
+        
+        kota = this._settings.get_string('kota');
+        dLat = this._settings.get_string('lat');
+        dLng = this._settings.get_double('lng');
+        iElv = this._settings.get_int('elevasi');
 
         this._prayTimeButtonIcon = new St.Icon({
             icon_name: 'weather-clear-night-symbolic',
@@ -57,7 +76,7 @@ const PrayTimeButton = new Lang.Class({
         });
 
         this._prayTimeButtonLabel = new St.Label({
-            text: pesan
+            text: pesan + ' di ' + kota
         });
 
         let topBox = new St.BoxLayout();
@@ -75,9 +94,9 @@ const PrayTimeButton = new Lang.Class({
 
       /////-----------Atur Parameter----------------------/////
       //TODO: harusnya diatur di setting
-      //atur lokasi. ini bandung, ketinggian 728 meter
+      //atur lokasi. ini bandung, ketinggian 718 meter
       let loc = {
-        city  : 'Bandung',
+        city  : kota,
         lat   : -6.914744,
         lng  : 107.609810,
         elev  : 718,
@@ -105,36 +124,39 @@ const PrayTimeButton = new Lang.Class({
       let submenu = new PopupMenu.PopupSubMenuMenuItem(loc.city);
       let subitem = new PopupMenu.PopupMenuItem("lat: \t"+ loc.lat);
       submenu.menu.addMenuItem(subitem);
-      subitem = new PopupMenu.PopupMenuItem("long: \t"+ loc.lng);
+      subitem = new PopupMenu.PopupMenuItem("lng: \t"+ dLng);
       submenu.menu.addMenuItem(subitem);
-      subitem = new PopupMenu.PopupMenuItem("elv: \t"+ loc.elev + " meter");
+      subitem = new PopupMenu.PopupMenuItem("elv: \t"+ iElev + " meter");
       submenu.menu.addMenuItem(subitem);
       this.menu.addMenuItem(submenu);
       //////-----------------------------------------///////
 
 	
       for(var i in list){
-	/*
-        if(i == 0 || i == 3 || i == 5){
+
           item = new PopupMenu.PopupMenuItem(listId[i]+"\t\t"+times[list[i].toLowerCase()]+"");
           this.menu.addMenuItem(item);
-        }else { */
-          item = new PopupMenu.PopupMenuItem(listId[i]+"\t\t"+times[list[i].toLowerCase()]+"");
-          this.menu.addMenuItem(item);
-        //}
+
       }
 	
 
       ////---------setting------------------////
       //TODO: koneksi ke setting ?
-      item = new PopupMenu.PopupSeparatorMenuItem();
-      this.menu.addMenuItem(item);
-      item = new PopupMenu.PopupMenuItem("Settings");
-      this.menu.addMenuItem(item);
-      ///-----------------------------------////
+      
+		this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
 
-      Main.panel.menuManager.addMenu(this.menu);
+		let item = new PopupMenu.PopupBaseMenuItem();
+		item.actor.add(new St.Label({ text: _("Settings") }), { expand: true, x_fill: false });
+		item.connect('activate', Lang.bind(this, this._showPreferences));
+		this.menu.addMenuItem(item);
+      
+		Main.panel.menuManager.addMenu(this.menu);
     },
+    
+    _showPreferences : function() {
+		imports.misc.util.spawn(["gnome-shell-extension-prefs", ExtensionUtils.getCurrentExtension().metadata['uuid']]);
+		return 0;
+	},
 
     enable: function() {
         Main.panel._rightBox.insert_child_at_index(this.container, 1);

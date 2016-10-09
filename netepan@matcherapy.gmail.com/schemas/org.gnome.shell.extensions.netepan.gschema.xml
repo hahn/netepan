@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="gnome-shell-extension-netepan">
+  <schema path="/org/gnome/shell/extensions/netepan/" id="org.gnome.shell.extensions.netepan">
+    <key type="s" name="kota">
+        <default>'Bandung'</default>
+        <summary>Kota Anda</summary>
+        <description>Kota Anda</description>
+    </key>
+    
+    <key type="d" name="lat">
+        <default>-6.914744</default>
+        <summary>Koordinat latitude</summary>
+        <description>Koordinat latitude</description>
+    </key>
+    
+    <key type="d" name="lng">
+        <default>107.609810</default>
+        <summary>Koordinat longitude</summary>
+        <description>Koordinat longitude</description>
+    </key>
+    
+    <key type="i" name="elevasi">
+        <default>718</default>
+        <summary>Ketinggian (Elevasi)</summary>
+        <description>Ketinggian (Elevasi)</description>
+    </key>
+    
+  </schema>
+</schemalist>
